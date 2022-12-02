@@ -1,10 +1,13 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'
 
-const Header = () => {
+const Header = ({showModal, setShowModal}) => {
+	const toggleModal = () => {
+		setShowModal(!showModal);
+	}
 	return (
 		<View style={styles.container}>
-			<TouchableOpacity>
+			<TouchableOpacity onPress={toggleModal}>
 				<Ionicons name="search" size={24} color="gray"/>
 			</TouchableOpacity>	
 			<Text style={{fontSize: 18, fontWeight: "600"}}>Convert</Text>

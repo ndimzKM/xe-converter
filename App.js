@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
-import { StyleSheet, Text, View, SafeAreaView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, Modal, Text, View, SafeAreaView, Platform, ScrollView } from 'react-native';
 
 /* Components */
 import Header from './components/Header';
@@ -9,6 +9,7 @@ import Currency from './components/Currency';
 
 export default function App() {
 
+  const [ showModal, setShowModal ] = useState(false);
   const [ currencies, setCurrencies ] = useState([
     {
       code: 'GMD',
@@ -34,9 +35,13 @@ export default function App() {
     },
   ]);
 
+  const closeModal = () => {
+    setShowModal(false);
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Header />
+      <Header showModal={showModal} setShowModal={setShowModal} />
       <ScrollView>
         <Text style={styles.updateText}>
           <Ionicons name="reload-outline" size={15}/>
@@ -48,6 +53,14 @@ export default function App() {
           )
         })}
       </ScrollView> 
+      <Modal visible={showModal} transparent={false}>
+        <View style={styles.modal}>
+            <TouchableOpacity style={styles.remove} onPress={closeModal}>
+              <Text style={{color:"#ccc"}}>x</Text>
+            </TouchableOpacity>
+            <TextInput placeholder="Search a currency" style={styles.input}/>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -63,4 +76,26 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     paddingBottom:10,
   },
+  modal: {
+    marginTop:100,
+    marginHorizontal:20,
+    borderRadius:10
+  },
+  remove: {
+    width:30,
+    height: 30,
+    borderColor: "#ccc",
+    borderWidth:1,
+    borderRadius: 15,
+    justifyContent:"center",
+    alignItems:"center",
+    background:"#fff"
+  },
+  input:{
+    borderWidth:1,
+    borderColor: "#ccc",
+    padding:15,
+    marginTop: 20,
+    borderRadius:5
+  }
 });
